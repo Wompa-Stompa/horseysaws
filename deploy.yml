@@ -1,0 +1,30 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [13.2.0]
+    steps:
+      - uses: actions/checkout@master
+      - name: install, build, and test
+        run: |
+          yarn install
+          yarn lint
+          yarn build
+          yarn test
+        env:
+          CI: true
+      - name: Deploy to production
+        uses: awb-pw/deploy-to-github-pages-action@1.1.1
+        env:
+          AUTHOR: Wompa_Stompa
+          BUILD_PATH: public
+          GITHUB_PAGE_NAME: https://github.com/Wompa-Stompa/horseysaws.git
+          PA_TOKEN: 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
+          USERNAME: Wompa_Stompa
+          EMAIL: chavothewonderdog@gmail.com
